@@ -12,10 +12,6 @@ import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -24,7 +20,6 @@ import org.springframework.security.oauth2.server.authorization.client.InMemoryR
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.KeyPair;
@@ -45,19 +40,6 @@ public class OAuth2AuthorizationServerSecurityConfiguration {
 	@Order(1)
 	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-		http.formLogin().disable();
-		return http.build();
-	}
-
-
-	@Bean
-	@Order(2)
-	public SecurityFilterChain standardSecurityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.authorizeHttpRequests((authorize) ->
-						authorize.anyRequest().authenticated()
-				)
-				.formLogin().disable();
 		return http.build();
 	}
 
@@ -68,8 +50,8 @@ public class OAuth2AuthorizationServerSecurityConfiguration {
 				.clientSecret("{noop}secret")
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-				.scope("message:read")
-				.scope("message:write")
+				.scope("message.read")
+				.scope("message.write")
 				.build();
 
 		return new InMemoryRegisteredClientRepository(registeredClient);
@@ -96,18 +78,7 @@ public class OAuth2AuthorizationServerSecurityConfiguration {
 
 	@Bean
 	public ProviderSettings providerSettings() {
-		return ProviderSettings.builder().issuer("http://10.20.1.192:8080").build();
-	}
-
-	@Bean
-	public UserDetailsService userDetailsService() {
-		UserDetails userDetails = User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("password")
-				.roles("USER")
-				.build();
-
-		return new InMemoryUserDetailsManager(userDetails);
+		return ProviderSettings.builder().issuer("http://127.0.0.1:8080").build();
 	}
 
 	@Bean
