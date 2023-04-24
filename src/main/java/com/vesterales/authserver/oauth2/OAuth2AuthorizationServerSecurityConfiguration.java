@@ -50,8 +50,8 @@ public class OAuth2AuthorizationServerSecurityConfiguration {
 				.clientSecret("{noop}secret")
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-				.scope("message.read")
-				.scope("message.write")
+				.scope("account")
+				.scope("member_information")
 				.build();
 
 		return new InMemoryRegisteredClientRepository(registeredClient);
