@@ -33,12 +33,13 @@ public class DefaultSecurityConfig {
 
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests(authorizeRequests ->
-				authorizeRequests.anyRequest().authenticated()
-			)
-				.oauth2ResourceServer()
-				.jwt();
+//		http
+//			.authorizeRequests(authorizeRequests ->
+//				authorizeRequests.anyRequest().authenticated()
+//			)
+//				.oauth2ResourceServer()
+//				.jwt();
+		http.csrf().disable();
 		return http.build();
 	}
 
