@@ -20,4 +20,11 @@ public class EventNotificationController {
         log.info("Event received from ENS :{}", eventBody);
         return ResponseEntity.status(HttpStatus.OK).body("Hello There");
     }
+
+    @PostMapping("/sfmc-events-2")
+    public ResponseEntity<String> sample2(@RequestHeader Map<String,String> headers, @RequestBody Object eventBody) {
+        log.info("Request headers {}", headers);
+        log.info("Event received from ENS :{}", eventBody);
+        return ResponseEntity.status(HttpStatus.OK).body("Hello There");
+    }
 }
