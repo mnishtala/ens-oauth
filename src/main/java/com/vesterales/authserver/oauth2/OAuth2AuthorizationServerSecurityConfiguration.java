@@ -56,7 +56,7 @@ public class OAuth2AuthorizationServerSecurityConfiguration {
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
 				.scope("write")
-				.tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(20))..build())
+				.tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(20)).build())
 				.build();
 
 		return new InMemoryRegisteredClientRepository(registeredClient);
